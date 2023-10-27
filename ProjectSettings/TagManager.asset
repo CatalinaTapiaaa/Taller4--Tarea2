@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Piso
+  - Ataque
+  - Pared
+  - Item
+  - Bueno
+  - Malo
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - Pared
+  - Water
+  - UI
+  - Player
+  - Ataque
+  - Comestible
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Negro
+    uniqueID: 2574122715
+    locked: 0
+  - name: Blanco
+    uniqueID: 2122287223
+    locked: 0
+  - name: Interface
+    uniqueID: 841960553
+    locked: 0
+  - name: Pausar
+    uniqueID: 1766575733
+    locked: 0
+  - name: GameOver
+    uniqueID: 2432882921
+    locked: 0
