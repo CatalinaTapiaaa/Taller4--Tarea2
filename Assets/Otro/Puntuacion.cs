@@ -6,11 +6,10 @@ using UnityEngine.UI;
 
 public class Puntuacion : MonoBehaviour
 {
-    public string[] frasesVictoria;
-    [Space]
     public GameObject componente;
     public Controlador controlador;
-    public Progresion progresion;
+    public CambiarColor cambiarColor;
+    public Items items;
     public Spawn spawn;
     [Space]
     public Animator ani;
@@ -19,7 +18,10 @@ public class Puntuacion : MonoBehaviour
     [Space]
     public float sumarVelocidad;
 
-    int current;
+    int nivel;
+    int x = 1;
+
+    bool pasarNivel;
 
     void Update()
     {
@@ -33,53 +35,57 @@ public class Puntuacion : MonoBehaviour
 
             if (items.Length == 0)
             {
-                controlador.puntuacion++;
-                current++;
-
-                int aleatorio = Random.Range(0, frasesVictoria.Length);
-                textoVictoria.text = frasesVictoria[aleatorio];
                 ani.SetBool("Activar", true);
+                nivel++;
 
+                pasarNivel = true;
                 spawn.listo = false;
             }
         }
-        spawn.cantidadSpawn = 3;
-
-        if (controlador.puntuacion == 1)
+        if (pasarNivel)
         {
-            spawn.cantidadSpawn = 2;
-            spawn.items.Add(progresion.malo);
-        }
-        if (controlador.puntuacion == 2)
-        {
-            spawn.items.Add(progresion.itemDos);
-        }
-        if (controlador.puntuacion == 3)
-        {
-            spawn.cantidadSpawn = 3;
-            spawn.items.Add(progresion.itemTres);
-        }
-        if (controlador.puntuacion == 4)
-        {
-            spawn.items.Add(progresion.itemCuatro);
-        }
-        if (controlador.puntuacion == 5)
-        {
-            spawn.items.Add(progresion.itemCinco);
-        }
-        if (controlador.puntuacion == 6)
-        {
-            spawn.items.Add(progresion.bueno);
-        }    
-
-        if (controlador.puntuacion == 2 * current)
-        {
-            spawn.velocidadDisparo += sumarVelocidad;
+            if (nivel == x * 3)
+            {
+                cambiarColor.numero++;
+                x++;
+            }
+          
+            if (nivel == 1)
+            {
+                spawn.items.Add(items.malo);
+            }
+            if (nivel == 2)
+            {
+                spawn.items.Add(items.dos);
+            }
+            if (nivel == 6)
+            {
+                spawn.items.Add(items.tres);
+            }
+            if (nivel == 8)
+            {
+                spawn.items.Add(items.cuatro);
+            }
+            if (nivel == 10)
+            {
+                spawn.items.Add(items.cinco);
+            }
+            if (nivel == 12)
+            {
+                spawn.items.Add(items.bueno);
+            }
+            pasarNivel = false;
         }
     }
 
     public void DesactivarAniTexto()
     {
         ani.SetBool("Activar", false);
+        cambiarColor.cambiar = true;
+        spawn.activar = true;
+    }
+    public void SumarPuntos()
+    {
+        controlador.puntuacion++;
     }
 }

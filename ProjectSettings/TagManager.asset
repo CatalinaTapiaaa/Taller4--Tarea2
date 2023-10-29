@@ -10,6 +10,7 @@ TagManager:
   - Item
   - Bueno
   - Malo
+  - Comestible
   layers:
   - Default
   - TransparentFX
@@ -52,6 +53,9 @@ TagManager:
     locked: 0
   - name: Blanco
     uniqueID: 2122287223
+    locked: 0
+  - name: Particula
+    uniqueID: 3819309779
     locked: 0
   - name: Interface
     uniqueID: 841960553

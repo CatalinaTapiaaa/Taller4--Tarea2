@@ -9,10 +9,10 @@ public class Player : MonoBehaviour
     public Linea linea;
     public Animator ani;
     public SpriteRenderer lenguaFinal;
+    public SpriteRenderer lenguaInicio;
 
     void Start()
     {
         linea.SetUpLine(puntos);
-        lenguaFinal.enabled = false;
     }
 }

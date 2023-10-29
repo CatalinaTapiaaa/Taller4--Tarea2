@@ -24,13 +24,9 @@ public class Derrota : MonoBehaviour
         if (derrota)
         {
             Temblando();
-            Time.timeScale = Mathf.Lerp(1, 0.2f, 3);
         }
         if (menu)
         {
-            t += Time.deltaTime;
-            Time.timeScale = Mathf.Lerp(0.2f, 1, 3);
-
             foreach (GameObject item in items)
             {
                 Rigidbody2D itemRigidbody2D = item.GetComponent<Rigidbody2D>();
@@ -59,6 +55,7 @@ public class Derrota : MonoBehaviour
                 }
             }
 
+            t += Time.deltaTime;
             if (t >= esperarMenu)
             {
                 panelGameOver.SetActive(true);

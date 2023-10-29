@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class Spawn : MonoBehaviour
@@ -11,6 +12,7 @@ public class Spawn : MonoBehaviour
     public AnimationCurve curva;
     public ParticleSystem particula;
     public Animator ani;
+    public Image barra;
     public Transform cañon;
     public Transform pivotSpawn;
     [Space]
@@ -23,13 +25,15 @@ public class Spawn : MonoBehaviour
     public bool  desactivar;
     public bool listo;
 
-    bool enPosicion, spawn, rotar, disparar;
-    float t;
+    bool enPosicion, spawn, rotar, disparar, reiniciar;
+    float t, tiempo;
     int current, aleatorioRotacion;
 
     void Start()
     {
         particula.Stop();
+        tiempo = tiempoSpawn;
+        enPosicion = true;
     }
 
     void Update()
@@ -40,10 +44,12 @@ public class Spawn : MonoBehaviour
             {
                 int aleatorioMover = Random.Range(0, pivotsMover.Length);
                 aleatorioRotacion = Random.Range(0, pivotsRotar.Length);
+                tiempo = tiempoSpawn;
 
                 StartCoroutine(MoverCañon(cañon.position, pivotsMover[aleatorioMover].position, velocidadMovimiento));
                 rotar = true;
                 activar = false;
+                reiniciar = false;
             }
             if (enPosicion)
             {
@@ -55,28 +61,44 @@ public class Spawn : MonoBehaviour
                     enPosicion = false;
                 }
             }
+
             if (spawn)
             {
-                StartCoroutine(CañonSpawn());
-                spawn = false;
-            }          
+                if (!reiniciar)
+                {
+                    tiempo -= Time.deltaTime;
+                    if (tiempo <= 0)
+                    {
+                        StartCoroutine(CañonSpawn());
+                        reiniciar = true;
+                    }
+                }
+                if (reiniciar)
+                {
+                    tiempo += Time.deltaTime * 2;
+                    if (tiempo >= tiempoSpawn)
+                    {
+                        reiniciar = false;
+                    }
+                }
+            }                
+
             if (current >= cantidadSpawn)
             {
                 StopAllCoroutines();
                 current = 0;
                 listo = true;
+                spawn = false;
             }
             if (rotar)
             {
                 Vector2 direccion = pivotsRotar[aleatorioRotacion].position - cañon.position;
                 cañon.up = direccion * Time.deltaTime;
             }
-
             if (disparar)
             {
                 ani.SetBool("Disparar", true);
-                particula.Play();
-            } 
+            }
             else
             {
                 ani.SetBool("Disparar", false);
@@ -86,12 +108,13 @@ public class Spawn : MonoBehaviour
         {
             StopAllCoroutines();
         }
+
+        barra.fillAmount = tiempo / tiempoSpawn;
     }
 
     public void NoDisparar()
     {
         disparar = false;
-        particula.Stop();
     }
     IEnumerator MoverCañon(Vector3 a, Vector3 b, float time)
     {
@@ -106,15 +129,13 @@ public class Spawn : MonoBehaviour
     }
     IEnumerator CañonSpawn()
     {
-        while (true)
-        {
-            current++;
-            disparar = true;
-            int aleatorioItems = Random.Range(0, items.Count);
-            GameObject item = Instantiate(items[aleatorioItems], pivotSpawn.position + pivotSpawn.up, transform.rotation);
-            item.GetComponent<Rigidbody2D>().AddForce(pivotSpawn.up * velocidadDisparo, ForceMode2D.Impulse);
+        current++;
+        disparar = true;
+        particula.Play();
+        int aleatorioItems = Random.Range(0, items.Count);
+        GameObject item = Instantiate(items[aleatorioItems], pivotSpawn.position + pivotSpawn.up, pivotSpawn.rotation);
+        item.GetComponent<Rigidbody2D>().AddForce(pivotSpawn.up * velocidadDisparo, ForceMode2D.Impulse);
 
-            yield return new WaitForSeconds(tiempoSpawn);
-        }
+        yield return null;
     }
 }
