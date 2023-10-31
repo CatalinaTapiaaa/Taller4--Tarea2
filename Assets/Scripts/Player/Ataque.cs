@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class Ataque : MonoBehaviour
 {
+    public GameObject componente;
+    public Controlador controlador;
     public Player player;
+    public Piso piso;
     public Transform pivotInicio;
-    public ParticleSystem efectoImpacto;
+    public AudioSource audioAtaque;
     [Header("Stats")]
     public float velocidadAtaque;
     public bool stop;
@@ -22,42 +25,45 @@ public class Ataque : MonoBehaviour
     {
         rb2D = GetComponent<Rigidbody2D>();
         circle2D = GetComponent<CircleCollider2D>();
-        efectoImpacto.Stop();
     }
 
     void Update()
     {
-        if (!stop)
+        componente = GameObject.Find("CONTROLADOR");
+        controlador = componente.GetComponent<Controlador>();
+
+        if (atacar)
         {
-            if (atacar)
-            {
-                player.ani.SetBool("Abrir", true);
-                player.lenguaFinal.enabled = true;
-                player.lenguaInicio.enabled = true;
+            player.ani.SetBool("Abrir", true);
+            player.lenguaFinal.enabled = true;
+            player.lenguaInicio.enabled = true;
 
-                circle2D.enabled = true;
-                noAtacar = true;
-            }
-            if (!atacar)
+            circle2D.enabled = true;
+            noAtacar = true;
+        }
+        if (!atacar)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, pivotInicio.position, velocidadAtaque * Time.deltaTime);
+        }
+        if (noAtacar)
+        {
+            if (transform.position == pivotInicio.position)
             {
-                transform.position = Vector2.MoveTowards(transform.position, pivotInicio.position, velocidadAtaque * Time.deltaTime);
+                player.ani.SetBool("Abrir", false);
+                player.lenguaFinal.enabled = false;
+                player.lenguaInicio.enabled = false;
+                circle2D.enabled = false;
+                noAtacar = false;
             }
-            if (noAtacar)
-            {
-                if (transform.position == pivotInicio.position)
-                {
-                    player.ani.SetBool("Abrir", false);
-                    player.lenguaFinal.enabled = false;
-                    player.lenguaInicio.enabled = false;
-                    circle2D.enabled = false;
-                    noAtacar = false;
-                }
-            }
+        }
 
+        if (!stop)
+        { 
             if (isMoving)
             {
                 currentDistanceToTouchPos = (touchPosition - transform.position).magnitude;
             }
+        
             if (Input.touchCount > 0)
             {
                 Touch touch = Input.GetTouch(0);
@@ -66,6 +72,7 @@ public class Ataque : MonoBehaviour
                 {
                     if (!noAtacar)
                     {
+                        audioAtaque.Play();
                         previousDistanceToTouchPos = 0;
                         currentDistanceToTouchPos = 0;
                         isMoving = true;
@@ -87,8 +94,7 @@ public class Ataque : MonoBehaviour
             {
                 previousDistanceToTouchPos = (touchPosition - transform.position).magnitude;
             }
-
-        }
+        }       
     }
   
     void OnCollisionEnter2D(Collision2D collision)
@@ -96,7 +102,16 @@ public class Ataque : MonoBehaviour
         if (collision.gameObject.CompareTag("Item"))
         {
             atacar = false;
-            efectoImpacto.Play();
+        }
+        if (collision.gameObject.CompareTag("Malo"))
+        {
+            piso.muerte = true;
+            rb2D.velocity = Vector2.zero;
+        }
+        if (collision.gameObject.CompareTag("Bueno"))
+        {
+            controlador.puntuacion++;
+            atacar = false;
         }
     }
 } 

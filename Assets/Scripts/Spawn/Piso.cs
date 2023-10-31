@@ -7,10 +7,11 @@ public class Piso : MonoBehaviour
     public Derrota derrota;
     public Ataque ataque;
     public Spawn spawn;
+    public bool muerte;
 
-    void OnTriggerEnter2D(Collider2D collision)
+    void Update()
     {
-        if (collision.gameObject.CompareTag("Item"))
+        if (muerte)
         {
             derrota.derrota = true;
             ataque.stop = true;
@@ -18,4 +19,12 @@ public class Piso : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Item"))
+        {
+            muerte = true;           
+        }
+    }   
 }

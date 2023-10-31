@@ -5,62 +5,67 @@ using TMPro;
 
 public class Item : MonoBehaviour
 {
+    [Header("Sonidos")]
+    public AudioSource audioColision;
+    [SerializeField] private AudioClip audioMuerte;
+    [Space]
     public ParticleSystem efectoMuerte;
+    public TrailRenderer cola;
     public TextMeshPro numeroActual;
     public int numero;
 
-    public bool de, iz;
-    float t;
+    Rigidbody2D rb2D;
 
-    void Update()
+    void Start()
     {
-        numeroActual.text = numero.ToString("0");
-        if (de)
-        {
-            transform.Rotate(0, 0, 180 * Time.deltaTime * 0.5f);
-        }
-        if (iz)
-        {
-            transform.Rotate(0, 0, -180 * Time.deltaTime * 0.5f);
-        }
+        rb2D = GetComponent<Rigidbody2D>();
     }
 
+    private void Update()
+    {
+        numeroActual.text = numero.ToString("0");
+    }
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Pared"))
         {
-            if (transform.position.x > 0)
-            {
-                de = true;
-                iz = false;
-            }
-            else
-            {
-                de = false;
-                iz = true;
-            }
-        }         
+            audioColision.Play();
+        }
+        if (collision.gameObject.CompareTag("Item"))
+        {
+            audioColision.Play();
+        }
+        if (collision.gameObject.CompareTag("Malo"))
+        {
+            audioColision.Play();
+        }
+        if (collision.gameObject.CompareTag("Bueno"))
+        {
+            audioColision.Play();
+        }
 
         if (collision.gameObject.CompareTag("Ataque"))
         {
             if (numero == 1)
             {
                 Instantiate(efectoMuerte, transform.position, Quaternion.identity);
+                Sonido.Instance.EjecutarSonido(audioMuerte);
                 Destroy(gameObject);
             }
             else
             {
+                audioColision.Play();
                 StartCoroutine(Restar());
             }
-            de = false;
-            iz = false;
         }     
     }
 
     // areglar
     IEnumerator Restar()
     {
-        transform.localScale = new Vector2(transform.localScale.x - 2, transform.localScale.y - 2);
+        cola.startWidth -= 0.2f;
+        transform.localScale = new Vector2(transform.localScale.x - 1, transform.localScale.y - 1);
+        rb2D.gravityScale += 0.1f;
         numero -= 1;
         yield return null;
     }

@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class Items : MonoBehaviour
 {
-    public GameObject uno;
-    public GameObject dos;
-    public GameObject tres;
-    public GameObject cuatro;
-    public GameObject cinco;
-    [Space]
-    public GameObject bueno; //puntosExtra
-    public GameObject malo; //gameOver
+    [Header("Items")]
+    public GameObject itemDos;
+    public GameObject itemTres;
+    public GameObject itemCuatro;
+    public GameObject itemCinco;
+    [Header("Malo")]
+    public GameObject maloUno;
+    public GameObject maloDos;
+    public GameObject maloTres;
+    public GameObject maloCuatro;
+    public GameObject maloCinco;
+    [Header("Bueno")]
+    public GameObject bueno;
 }

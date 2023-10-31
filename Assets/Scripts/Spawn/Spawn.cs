@@ -9,6 +9,7 @@ public class Spawn : MonoBehaviour
     public Transform[] pivotsRotar;
     public List<GameObject> items = new List<GameObject>();
     [Space]
+    public AudioSource audioSpawn;
     public AnimationCurve curva;
     public ParticleSystem particula;
     public Animator ani;
@@ -24,8 +25,9 @@ public class Spawn : MonoBehaviour
     public bool activar;
     public bool  desactivar;
     public bool listo;
+    public bool disparar;
 
-    bool enPosicion, spawn, rotar, disparar, reiniciar;
+    bool enPosicion, spawn, rotar, reiniciar;
     float t, tiempo;
     int current, aleatorioRotacion;
 
@@ -129,13 +131,13 @@ public class Spawn : MonoBehaviour
     }
     IEnumerator CañonSpawn()
     {
+        audioSpawn.Play();
         current++;
         disparar = true;
         particula.Play();
         int aleatorioItems = Random.Range(0, items.Count);
-        GameObject item = Instantiate(items[aleatorioItems], pivotSpawn.position + pivotSpawn.up, pivotSpawn.rotation);
+        GameObject item = Instantiate(items[aleatorioItems], pivotSpawn.position + pivotSpawn.up, transform.rotation);
         item.GetComponent<Rigidbody2D>().AddForce(pivotSpawn.up * velocidadDisparo, ForceMode2D.Impulse);
-
         yield return null;
     }
 }

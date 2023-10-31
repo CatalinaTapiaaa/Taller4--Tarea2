@@ -11,6 +11,8 @@ TagManager:
   - Bueno
   - Malo
   - Comestible
+  - Matar
+  - MatarMalo
   layers:
   - Default
   - TransparentFX
@@ -65,4 +67,7 @@ TagManager:
     locked: 0
   - name: GameOver
     uniqueID: 2432882921
+    locked: 0
+  - name: Transicion
+    uniqueID: 360214255
     locked: 0

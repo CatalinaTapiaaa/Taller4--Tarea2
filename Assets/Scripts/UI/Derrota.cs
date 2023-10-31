@@ -16,45 +16,44 @@ public class Derrota : MonoBehaviour
     bool temblor, menu;
 
     void Update()
-    {
-        GameObject[] items = GameObject.FindGameObjectsWithTag("Item");
-        GameObject[] buenos = GameObject.FindGameObjectsWithTag("Bueno");
-        GameObject[] malos = GameObject.FindGameObjectsWithTag("Malo");
-
+    {       
         if (derrota)
         {
             Temblando();
-        }
-        if (menu)
-        {
-            foreach (GameObject item in items)
+
+            GameObject[] items = GameObject.FindGameObjectsWithTag("Item");
+            GameObject[] malos = GameObject.FindGameObjectsWithTag("Malo");
+            GameObject[] buenos = GameObject.FindGameObjectsWithTag("Bueno");
+            foreach (var item in items)
             {
                 Rigidbody2D itemRigidbody2D = item.GetComponent<Rigidbody2D>();
 
                 if (itemRigidbody2D != null)
                 {
-                    itemRigidbody2D.constraints = RigidbodyConstraints2D.FreezePosition | RigidbodyConstraints2D.FreezeRotation;
+                    itemRigidbody2D.constraints = RigidbodyConstraints2D.FreezePosition;
                 }
             }
-            foreach (GameObject bueno in buenos)
-            {
-                Rigidbody2D itemRigidbody2D = bueno.GetComponent<Rigidbody2D>();
-
-                if (itemRigidbody2D != null)
-                {
-                    itemRigidbody2D.constraints = RigidbodyConstraints2D.FreezePosition | RigidbodyConstraints2D.FreezeRotation;
-                }
-            }
-            foreach (GameObject malo in malos)
+            foreach (var malo in malos)
             {
                 Rigidbody2D itemRigidbody2D = malo.GetComponent<Rigidbody2D>();
 
                 if (itemRigidbody2D != null)
                 {
-                    itemRigidbody2D.constraints = RigidbodyConstraints2D.FreezePosition | RigidbodyConstraints2D.FreezeRotation;
+                    itemRigidbody2D.constraints = RigidbodyConstraints2D.FreezePosition;
                 }
             }
+            foreach (var bueno in buenos)
+            {
+                Rigidbody2D itemRigidbody2D = bueno.GetComponent<Rigidbody2D>();
 
+                if (itemRigidbody2D != null)
+                {
+                    itemRigidbody2D.constraints = RigidbodyConstraints2D.FreezePosition;
+                }
+            }
+        }
+        if (menu)
+        {          
             t += Time.deltaTime;
             if (t >= esperarMenu)
             {
