@@ -6,6 +6,9 @@ using UnityEngine.UI;
 
 public class Puntuacion : MonoBehaviour
 {
+    [SerializeField] private AudioClip audioVictoria;
+    public string[] frases;
+    [Space]
     public GameObject componente;
     public Controlador controlador;
     public CambiarColor cambiarColor;
@@ -47,6 +50,9 @@ public class Puntuacion : MonoBehaviour
             {
                 if (items.Length == 0)
                 {
+                    int aleatorio = Random.Range(0, frases.Length);
+                    textoVictoria.text = frases[aleatorio].ToString();
+
                     ani.SetBool("Activar", true);
                     nivel++;
 
@@ -57,7 +63,7 @@ public class Puntuacion : MonoBehaviour
         }
         if (pasarNivel)
         {
-            if (nivel == x * 3)
+            if (nivel == x * 2)
             {
                 if (spawn.tiempoSpawn > 0.5f)
                 {
@@ -67,12 +73,12 @@ public class Puntuacion : MonoBehaviour
                 cambiarColor.numero++;
                 x++;
             }
-            spawn.activar = true;
 
             //Uno
             if (nivel == 1)
             {
                 aniTutorial.SetBool("Quitar", true);
+                spawn.items.Add(items.itemUno);
                 spawn.items.Add(items.maloUno);
             }
             //Dos
@@ -82,6 +88,7 @@ public class Puntuacion : MonoBehaviour
             }
             if (nivel == 3)
             {
+                spawn.items.Add(items.itemDos);
                 spawn.items.Add(items.maloDos);
             }
             //Tres
@@ -91,6 +98,7 @@ public class Puntuacion : MonoBehaviour
             }
             if (nivel == 5)
             {
+                spawn.items.Add(items.itemTres);
                 spawn.items.Add(items.maloTres);
             }
             //Cuatro
@@ -100,6 +108,7 @@ public class Puntuacion : MonoBehaviour
             }
             if (nivel == 7)
             {
+                spawn.items.Add(items.itemCuatro);
                 spawn.items.Add(items.maloCuatro);
             }
             //Cinco
@@ -109,6 +118,7 @@ public class Puntuacion : MonoBehaviour
             }
             if (nivel == 9)
             {
+                spawn.items.Add(items.itemCinco);
                 spawn.items.Add(items.maloCinco);
             }
             //Seis
@@ -125,9 +135,15 @@ public class Puntuacion : MonoBehaviour
     {
         ani.SetBool("Activar", false);
         cambiarColor.cambiar = true;
+        spawn.activar = true;
     }
     public void SumarPuntos()
     {
         controlador.puntuacion++;
+    }
+
+    public void SonidoVictoria()
+    {
+        Sonido.Instance.EjecutarSonido(audioVictoria);
     }
 }

@@ -1450,6 +1450,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4507793144149901013, guid: de3277c50d615c04da244958e6627886, type: 3}
+      propertyPath: m_text
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6581656521461161568, guid: de3277c50d615c04da244958e6627886, type: 3}
       propertyPath: m_Name
       value: 0
@@ -1980,10 +1984,13 @@ MonoBehaviour:
 
     EFECTOS SONIDOS
 
-    REBOTE: Pixabay
-    y Just 4every1
+    Pixabay ;
+    Just 4every1 ;Pixabay
 
-    MUSICA: XtremeFreddy'
+
+    MUSICA
+
+    XtremeFreddy'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f412fbcaf4af5924b8dab0b1ee2eb9c9, type: 2}
   m_sharedMaterial: {fileID: -7800503932902801372, guid: f412fbcaf4af5924b8dab0b1ee2eb9c9, type: 2}

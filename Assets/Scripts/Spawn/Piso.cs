@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Piso : MonoBehaviour
 {
+    [SerializeField] private AudioClip audioMuerte;
     public Derrota derrota;
     public Ataque ataque;
     public Spawn spawn;
@@ -24,6 +25,8 @@ public class Piso : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Item"))
         {
+            Sonido.Instance.EjecutarSonido(audioMuerte);
+
             muerte = true;           
         }
     }   

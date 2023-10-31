@@ -5,6 +5,7 @@ using UnityEngine;
 public class Items : MonoBehaviour
 {
     [Header("Items")]
+    public GameObject itemUno;
     public GameObject itemDos;
     public GameObject itemTres;
     public GameObject itemCuatro;

@@ -91,6 +91,7 @@ public class Spawn : MonoBehaviour
                 current = 0;
                 listo = true;
                 spawn = false;
+                activar = false;
             }
             if (rotar)
             {
@@ -139,5 +140,6 @@ public class Spawn : MonoBehaviour
         GameObject item = Instantiate(items[aleatorioItems], pivotSpawn.position + pivotSpawn.up, transform.rotation);
         item.GetComponent<Rigidbody2D>().AddForce(pivotSpawn.up * velocidadDisparo, ForceMode2D.Impulse);
         yield return null;
+        activar = true;
     }
 }
